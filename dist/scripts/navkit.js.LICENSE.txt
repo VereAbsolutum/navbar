@@ -1,0 +1,7 @@
+/**!
+ * @author [VereAbsolutum]
+ * @email [sergiopile3@fmail.com]
+ * @create date 2021-11-16 21:19:28
+ * @modify date 2021-11-24 20:36:20
+ * @desc [full-width animated navigation bar]
+ */

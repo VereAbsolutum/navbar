@@ -1,0 +1,265 @@
+.section {
+  padding-top: 4.5rem;
+
+  &__title {
+    margin-bottom: 1.5rem;
+    font-family: 'Suez One', serif;
+    text-transform: uppercase;
+    font-size: 2.8rem;
+    color: #fff;
+    line-height: 1.1;
+    max-width: 270px;
+  }
+}
+
+.flex-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: block;
+  margin-bottom: 2.4rem;
+  color: #fff;
+  font-family: 'Squada One', cursive;
+  font-size: 1.2rem;
+}
+
+.hero--green {
+  background-color: #25712d;
+}
+
+.hero--blue {
+  background-color: #252571;
+}
+
+.hero--red {
+  background-color: #6f1616;
+}
+
+.hero--metal {
+  background-color: #58585a;
+}
+
+.hero--black {
+  background-color: #100e13;
+}
+
+.hero {
+  min-height: 100vh;
+
+  &__data {
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+  }
+  &__container {
+    margin: 0 auto;
+    width: 80vw;
+  }
+  &__content {
+    margin-top: 3rem;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.card {
+  padding: 1rem;
+
+  &__content {
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    background-color: #ccc;
+    margin: 0 auto;
+
+    &:hover {
+      .arrow-icon {
+        top: 0;
+      }
+
+      .arrow {
+        background-color: rgba(31, 31, 31, 0.8);
+      }
+
+      .card__image {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  &__description {
+    background-color: rgba(31, 31, 31, 0.8);
+    width: 100%;
+    right: 0;
+    left: 0;
+    position: absolute;
+    bottom: 0;
+    transition: 0.3s;
+    padding: 0.5rem;
+  }
+
+  &__title {
+    color: #fff;
+    font-family: 'Suez One', serif;
+    font-size: 1.5rem;
+  }
+
+  &__img {
+    transition: 0.3s ease;
+    transform: scale(1);
+  }
+
+  .arrow {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease-in-out 0.3s;
+    background-color: transparent;
+
+    &-icon {
+      position: relative;
+      display: block;
+      padding: 1.5rem;
+      border-radius: 50%;
+      background-color: rgba(31, 31, 31, 0.8);
+      color: #fff;
+      font-size: 3rem;
+      transition: 0.3s ease-out;
+      top: 100%;
+    }
+  }
+}
+
+.button {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  transition: transform 0.3s;
+
+  &__style {
+    font-family: 'Squada One', cursive;
+    color: #e8b943;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+@media only screen and (min-width: 575px) {
+  .brand {
+    font-size: 1.5rem;
+  }
+
+  .button {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 0.6rem;
+
+    &__content {
+      width: 220px;
+      height: 220px;
+    }
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .card {
+    padding: 0.6rem;
+
+    &__content {
+      width: 250px;
+      height: 250px;
+    }
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .section {
+    &__title {
+      font-size: 3rem;
+    }
+  }
+
+  .hero {
+    padding-top: 8rem;
+
+    &__content {
+      max-width: 60%;
+    }
+
+    &__data {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin-bottom: 5rem;
+    }
+  }
+
+  .card {
+    padding: 0.5rem;
+
+    &__content {
+      width: 170px;
+      height: 170px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  .section {
+    &__title {
+      font-size: 4rem;
+    }
+  }
+
+  .hero {
+    padding-top: 4.5rem;
+
+    &__data {
+      margin-bottom: 8rem;
+    }
+  }
+
+  .card {
+    padding: 1rem;
+
+    &__content {
+      width: 210px;
+      height: 210px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1200) {
+  .hero {
+    &__content {
+      max-width: 50%;
+    }
+  }
+  .card {
+    padding: 1rem;
+
+    &__content {
+      width: 204px;
+      height: 204px;
+    }
+  }
+}

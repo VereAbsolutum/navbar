@@ -1,0 +1,26 @@
+/** Base */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  font-family: 'Moderat Bold', sans-serif;
+}
+
+body {
+  font-family: 'Squada One', cursive;
+}
+
+menu,
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/** End Base */

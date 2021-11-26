@@ -1,0 +1,284 @@
+.section {
+  padding-top: 4.5rem;
+}
+
+.section__title {
+  margin-bottom: 1.5rem;
+  font-family: 'Suez One', serif;
+  text-transform: uppercase;
+  font-size: 2.8rem;
+  color: #fff;
+  line-height: 1.1;
+  max-width: 270px;
+}
+
+.flex-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.brand {
+  display: block;
+  margin-bottom: 2.4rem;
+  color: #fff;
+  font-family: 'Squada One', cursive;
+  font-size: 1.2rem;
+}
+
+.hero--green {
+  background-color: #25712d;
+}
+
+.hero--blue {
+  background-color: #252571;
+}
+
+.hero--red {
+  background-color: #6f1616;
+}
+
+.hero--metal {
+  background-color: #58585a;
+}
+
+.hero--black {
+  background-color: #100e13;
+}
+
+.hero {
+  min-height: 100vh;
+}
+
+.hero__data {
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero__container {
+  margin: 0 auto;
+  width: 80vw;
+}
+
+.hero__content {
+  margin-top: 3rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.card {
+  padding: 1rem;
+}
+
+.card__content {
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  width: 280px;
+  height: 280px;
+  background-color: #ccc;
+  margin: 0 auto;
+}
+
+.card__content:hover .arrow-icon {
+  top: 0;
+}
+
+.card__content:hover .arrow {
+  background-color: rgba(31, 31, 31, 0.8);
+}
+
+.card__content:hover .card__image {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.card__link {
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+}
+
+.card__description {
+  background-color: rgba(31, 31, 31, 0.8);
+  width: 100%;
+  right: 0;
+  left: 0;
+  position: absolute;
+  bottom: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  padding: 0.5rem;
+}
+
+.card__title {
+  color: #fff;
+  font-family: 'Suez One', serif;
+  font-size: 1.5rem;
+}
+
+.card__img {
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.card .arrow {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: ease-in-out 0.3s;
+  transition: ease-in-out 0.3s;
+  background-color: transparent;
+}
+
+.card .arrow-icon {
+  position: relative;
+  display: block;
+  padding: 1.5rem;
+  border-radius: 50%;
+  background-color: rgba(31, 31, 31, 0.8);
+  color: #fff;
+  font-size: 3rem;
+  -webkit-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
+  top: 100%;
+}
+
+.button {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+}
+
+.button__style {
+  font-family: 'Squada One', cursive;
+  color: #e8b943;
+}
+
+.button:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+@media only screen and (min-width: 575px) {
+  .brand {
+    font-size: 1.5rem;
+  }
+  .button {
+    font-size: 1.5rem;
+  }
+  .card {
+    padding: 0.6rem;
+  }
+  .card__content {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .card {
+    padding: 0.6rem;
+  }
+  .card__content {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .section__title {
+    font-size: 3rem;
+  }
+  .hero {
+    padding-top: 8rem;
+  }
+  .hero__content {
+    max-width: 60%;
+  }
+  .hero__data {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    margin-bottom: 5rem;
+  }
+  .card {
+    padding: 0.5rem;
+  }
+  .card__content {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  .section__title {
+    font-size: 4rem;
+  }
+  .hero {
+    padding-top: 4.5rem;
+  }
+  .hero__data {
+    margin-bottom: 8rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .card__content {
+    width: 210px;
+    height: 210px;
+  }
+}
+
+@media only screen and (min-width: 1200) {
+  .hero__content {
+    max-width: 50%;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .card__content {
+    width: 204px;
+    height: 204px;
+  }
+}
+/*# sourceMappingURL=page.css.map */

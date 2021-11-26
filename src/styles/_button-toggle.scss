@@ -1,0 +1,191 @@
+/** Button Toggle */
+
+.toggle {
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 100;
+  font-size: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1rem;
+  width: 3rem;
+  order: 1;
+
+  &-label {
+    font-family: 'Squada One', cursive;
+  }
+
+  .toggle__before {
+    display: block;
+    height: 100%;
+    width: 120%;
+    position: absolute;
+    top: 0;
+  }
+
+  &__icon {
+    position: absolute;
+    transform: scale(0);
+    right: 3px;
+    bottom: -5px;
+    font-size: 1rem;
+  }
+
+  .t-bar,
+  .t-bar::before,
+  .t-bar::after {
+    height: 3px;
+    display: block;
+  }
+
+  .t-bar {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+    }
+  }
+
+  > * {
+    pointer-events: none;
+  }
+}
+
+// COLORS
+.toggle {
+  &__icon,
+  &-label {
+    color: #fff;
+  }
+
+  .t-bar,
+  .t-bar::before,
+  .t-bar::after {
+    background-color: #fff;
+  }
+}
+
+// TRANSITION
+.header__link,
+.t-bar,
+.toggle__icon,
+.toggle-label,
+.t-bar .h-line,
+.h-line::after,
+.h-line::before,
+.v-line::before,
+.v-line::after {
+  transition: 0.5s 0.3s ease;
+}
+
+.v-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: transparent;
+
+  &::before,
+  &::after {
+    width: 1.3rem;
+    transform-origin: left;
+    transform: rotate(90deg) scaleX(1);
+    top: -1px;
+  }
+
+  &::after {
+    left: 1px;
+    transform: rotate(90deg) scaleX(0);
+  }
+
+  &::before {
+    right: -1.25rem;
+  }
+}
+
+.v-line,
+.h-line,
+.h-line::before,
+.h-line::after {
+  width: 48px;
+}
+.h-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: left;
+
+  &::before,
+  &::after {
+    transform-origin: left;
+  }
+
+  &::before {
+    top: 6px;
+  }
+
+  &::after {
+    top: 13px;
+  }
+}
+
+.toggle-label {
+  position: absolute;
+  display: block;
+  z-index: 100;
+  left: -90px;
+  bottom: -5px;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #fff;
+  display: none;
+  pointer-events: auto;
+  font-weight: 400;
+}
+
+.btn-toggle {
+  background-color: transparent;
+  border: none;
+}
+
+.toggle__close {
+  left: 0px;
+  opacity: 0;
+}
+
+.header.is-opened {
+  .toggle__close {
+    opacity: 1;
+  }
+}
+
+// FUNCTIONALITY: animation
+// It changes the toggle to close mode
+// when the overlay is opened
+.header.is-opened {
+  .toggle__icon {
+    transform: scaleX(1) rotate(-180deg);
+  }
+
+  .v-line {
+    &::after {
+      transform: rotate(90deg) scaleX(1);
+    }
+
+    &::before {
+      transform: rotate(90deg) scaleX(0);
+    }
+  }
+
+  .h-line {
+    &::before {
+      transform: scaleX(0.5);
+    }
+
+    &::after {
+      transform: scaleX(0.5);
+    }
+  }
+}
+
+/** End Button Toggle */

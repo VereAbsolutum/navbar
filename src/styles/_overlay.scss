@@ -1,0 +1,159 @@
+/** Overlay */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 10;
+  transition: 1.5s;
+  overflow: hidden;
+  visibility: hidden;
+  order: 0;
+
+  &__container {
+    position: relative;
+    margin: 0 auto;
+    width: 80%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.primary-nav {
+  text-align: center;
+  text-transform: uppercase;
+
+  &__link {
+    font-size: 2rem;
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    &::before {
+      content: '';
+      background-color: rgb(83, 83, 83);
+      height: 7px;
+      position: absolute;
+      width: 0;
+      right: 0;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: 0.3s;
+    }
+
+    &:hover {
+      &::before {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.primary-nav__list,
+.secondary-nav__link {
+  opacity: 0;
+  font-family: 'Squada One', cursive;
+}
+
+.secondary-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  bottom: 20%;
+
+  &__link {
+    display: inline-block;
+    padding-left: 0.5rem;
+    padding-left: 0.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+.overlay-transition {
+  background-color: #fff;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  visibility: hidden;
+  order: 0;
+}
+
+.primary-nav__link,
+.secondary-nav__link {
+  color: #fff;
+  transition: color 1100ms;
+  font-style: normal;
+  letter-spacing: 3px;
+}
+
+// COLORS ON IS-OPEN
+.header.is-opened {
+  .toggle-label,
+  .toggle__icon,
+  .header__link {
+    color: #000;
+  }
+
+  .toggle {
+    .v-line,
+    .h-line,
+    .h-line::before,
+    .h-line::after,
+    .v-line::before,
+    .v-line::after {
+      background-color: #000;
+    }
+  }
+}
+
+// FUNCTIONALITY: OVERLAY OPENED
+.header.is-opened {
+  .overlay {
+    visibility: visible;
+    opacity: 1;
+  }
+  .primary-nav__link,
+  .secondary-nav__link {
+    color: #000;
+  }
+}
+
+// FUNCTIONALITY: OVERLAY VISIBILITY
+.visible-hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible !important;
+  > * {
+    visibility: visible;
+  }
+}
+
+.overlay.visible {
+  transition: opacity 1s;
+  opacity: 1;
+}
+
+// Media Query
+
+@media only screen and (min-width: '720px') {
+  .primary-nav__list {
+    display: inline-block;
+    margin: 0 45px;
+  }
+}
+
+/** End Overlay */
