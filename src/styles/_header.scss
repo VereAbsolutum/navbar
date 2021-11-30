@@ -1,34 +1,50 @@
 /** Header */
 
 .header {
-  justify-content: space-between;
-  height: 110px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  width: 80vw;
-  margin: 0 auto;
+  width: 100%;
   background: transparent;
   z-index: 100;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 110px;
+    width: 80%;
+    margin: 0 auto;
+  }
 
   &__link {
     display: flex;
     color: #fff;
-    font-size: 3rem;
-    font-family: 'Squada One', cursive;
-    text-transform: uppercase;
-    font-weight: 400;
   }
 
   &__logo {
     display: none;
+    align-items: center;
     z-index: 100;
   }
 
   &__img {
     width: 100%;
   }
+}
+
+// STYLE
+.header--style {
+  background: transparent;
+}
+
+.header__link--style {
+  color: #fff;
+  font-size: 3rem;
+  font-family: 'Squada One', cursive;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 /** End Header */

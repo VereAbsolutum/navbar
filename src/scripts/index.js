@@ -1,34 +1,132 @@
-/**!
+/**
+ * App Module
+ * @module /src/scripts/index.js
+ *
  * @author [VereAbsolutum]
  * @email [sergiopile3@fmail.com]
+ * @version 1.0.0
  * @create date 2021-11-16 21:19:28
  * @modify date 2021-11-24 20:36:20
- * @desc [full-width animated navigation bar]
+ * @description This module creates the shapes of the SVG animation. You can use the object assign to the window object called Navkit
+ * and than use the class OverlayAnimation object to set the parameters for the animation.
  */
 
 'use strict'
 
-// import 'core-js/modules/es.array.for-each'
-// import 'core-js/modules/es.object.assign'
+import 'core-js/modules/es.array.for-each'
+import 'core-js/modules/es.object.assign'
+
+/**
+ * @constant {number} animeJSDuration animeJSDuration is used with the AnimeJS object
+ */
+const animeJSDuration = 1000
+
+/** @constant {number} SVG_WIDTH It is the value for the svg size */
+const SVG_WIDTH = 100
+
+/** @constant {String} EASE_IN_OUT Easing function name used to control the velocity of the animation */
+const EASE_IN_OUT = 'easeInOut'
+
+/** @constant {String} FUNCTION_NAME_RANDOM Easing function name used to control the velocity of the animation */
+const FUNCTION_NAME_RANDOM = 'random'
+
+/** @constant {String} DIRECTION_HORIZONTALDefine the animation direction to horizontal */
+const DIRECTION_HORIZONTAL = 'h'
+/** @constant {String} DIRECTION_VERTICAL Define the animation direction to vertical */
+const DIRECTION_VERTICAL = 'v'
+/** @constant {String} ORIENTATION_INVERSE It inverts the orientation of the animation */
+const ORIENTATION_INVERSE = 'inverse'
+
+/** @constant {String} STATUS_CLOSED The status of the animation [CLOSED] */
+const STATUS_CLOSED = 'closed'
+/** @constant {String} STATUS_OPENED The status of the animation [CLOSED] */
+const STATUS_OPENED = 'opened'
+
+/** CLASS NAMES */
+/** @constant {string} CLASS_VISIBLE Class name used to set the visibility */
+const CLASS_VISIBLE = 'visible'
+/** @constant {string} CLASS_IS_OPENED Class name used to indicate status of the HTMLElement as opened */
+const CLASS_IS_OPENED = 'is-opened'
+/** @constant {string} CLASS_IS_CLOSED Class name used to indicate status of the HTMLElement as closed */
+const CLASS_IS_CLOSED = 'is-closed'
+/** @constant {string} CLASS_IS_TRANSITIONING Class name used to indicate status of the HTMLElement as transitioning */
+const CLASS_IS_TRANSITIONING = 'is-transitioning'
+
+/** SELECTORS */
+/** @constant {string} SELECTOR_HEADER Selector name for the header element */
+const SELECTOR_HEADER = '#header'
+/** @constant {string} SELECTOR_OVERLAY_TRANSITION Selector name for the overlay-transition element */
+const SELECTOR_OVERLAY_TRANSITION = '#overlay-transition'
+/** @constant {string} SELECTOR_TOGGLE_LABEL_CLOSE Selector name for the toggle__close element */
+const SELECTOR_TOGGLE_LABEL_CLOSE = '.toggle__close'
+/** @constant {string} SELECTOR_TOGGLE_LABEL_OPEN Selector name for the toggle__open element */
+const SELECTOR_TOGGLE_LABEL_OPEN = '.toggle__open'
+/** @constant {string} SELECTOR_OVERLAY_PRIMARY_LIST Selector name for the primary-nav__list elements */
+const SELECTOR_OVERLAY_PRIMARY_LIST = '.primary-nav__list'
+/** @constant {string} SELECTOR_OVERLAY_SECONDARY_LINK Selector name for the secondary-nav__link elements */
+const SELECTOR_OVERLAY_SECONDARY_LINK = '.secondary-nav__link'
+
+/** DOM ELEMENTS */
+/** @constant {HTMLElement} header HTML element from the DOM */
+const header = document.querySelector(SELECTOR_HEADER)
+/** @constant {HTMLElement} overlayTransition HTML element from the DOM */
+const overlayTransition = document.querySelector(SELECTOR_OVERLAY_TRANSITION)
+/** @constant {HTMLElement} overlayBg HTML element from the DOM */
+const overlayBg = document.querySelector('#overlay-transition')
+/** @constant {HTMLElement} paths HTML element from the DOM */
+const paths = overlayBg.querySelectorAll('path')
+
+// HELPERS
+/**
+ * The invertOrientation function will receive a value from array of amplitudes and returns
+ * a subtraction of the SVG size and the array value. The intention is to invert the orientation
+ * of the amplitudes
+ * @param {Number} x - the value of the control point in a time
+ * @return {Number} - the new value of the control after inversion
+ */
+function invertOrientation(x) {
+  return 100 - x
+}
+
+/**
+ * A function used to smoothie the curve of the control points used in the svg PATH
+ * to create the shapes of the animation
+ * Available easing functions: [
+ * - easeIn
+ * - easeOut
+ * - easeInOut
+ * - linear
+ * ]
+ * @param {String} easingName - the name of the function to be used
+ * @param {Number} x - the time
+ * @return {Number} - the position (control point) in that time
+ */
+function easingFn(easingName, x) {
+  return {
+    easeIn: x == 0.0 ? x : Math.pow(2.0, 10.0 * (x - 1.0)),
+    easeOut: x == 1.0 ? x : 1.0 - Math.pow(2.0, -10.0 * x),
+    easeInOut:
+      x < 0.5 ? 4.0 * Math.pow(x, 3) : 0.5 * Math.pow(2.0 * x - 2.0, 3.0) + 1.0,
+    linear: x
+  }[easingName]
+}
 
 /** ******************************************************************************************************
  *  ANIMEJS OBJECTS
  *  ******************************************************************************************************/
 
-/** @type {Array} */
-const SELECTOR_OVERLAY_LINKS = ['.primary-nav__list', '.secondary-nav__link']
-/** @type {string} */
-const SELECTOR_TOGGLE_LABEL_CLOSE = '.toggle__close'
-/** @type {string} */
-const SELECTOR_TOGGLE_LABEL_OPEN = '.toggle__open'
-/** @type {string} */
-const SELECTOR_OVERLAY_PRIMARY_LIST = '.primary-nav__list'
-/** @type {string} */
-const SELECTOR_OVERLAY_SECONDARY_LINK = '.secondary-nav__link'
-
-/** @type {number} */
-const animeJSDuration = 1000
-
+/**
+ * animeProps is an object of objects.
+ * This objects is used to set the value of anime() function from the AnimeJS
+ * Available objects: {
+ * - timeline
+ * - primaryNav
+ * - secondaryNav
+ * - toggleLabelClose
+ * - toggleLabelOpen
+ *
+ * }
+ * @constant {object} */
 const animeProps = {
   timeline: {
     autoplay: false,
@@ -126,7 +224,8 @@ const animeProps = {
 }
 
 /**
- * animateExit creates the animeJS object used to animate the elements in the overlay
+ * The animateExit function expect a callback function, if not provide it runs with default values for the animation
+ * This function execute a timeline function from AnimeJS API.
  * @param {Function} callback - () => AnimeJS enter object
  * @return {Object} - AnimeJS object
  */
@@ -134,9 +233,10 @@ const animateExit = (callback) => {
   let props = animeProps
   let properties
   if (callback) {
-    properties = callback(animeProps.enter)
+    properties = callback(animeProps.exit)
     Object.assign(props.enter, properties)
   }
+
   return anime
     .timeline(props.timeline)
     .add(props.exit.primaryNav.props, props.exit.primaryNav.offset)
@@ -146,7 +246,8 @@ const animateExit = (callback) => {
 }
 
 /**
- * animateEnter creates the animeJS object used to animate the elements in the overlay
+ * The animateEnter function expect a callback function, if not provide it runs with default values for the animation
+ * This function execute a timeline function from AnimeJS API.
  * @param {Function} callback - () => AnimeJS enter object
  * @return {Object} - AnimeJS object
  */
@@ -170,63 +271,6 @@ const animateEnter = (callback) => {
  *  ******************************************************************************************************/
 
 /**
- * A function used to smoothie the curve of the control points used in the svg PATH
- * to create the shapes of the animation
- * ***************
- * - easeInOut: cubic-bezier function
- * ***************
- * @param {String} easingName - the name of the function to be used
- * @param {Number} x - the time
- * @return {Number} - the position (control point) in that time
- */
-function easingFn(easingName, x) {
-  return {
-    easeIn: x == 0.0 ? x : Math.pow(2.0, 10.0 * (x - 1.0)),
-    easeOut: x == 1.0 ? x : 1.0 - Math.pow(2.0, -10.0 * x),
-    easeInOut:
-      x < 0.5 ? 4.0 * Math.pow(x, 3) : 0.5 * Math.pow(2.0 * x - 2.0, 3.0) + 1.0,
-    linear: x
-  }[easingName]
-}
-
-/**
- * It subtract the control point from the screen size (in x axis or y axis)
- * resulting in the change of the direction of the animation
- * *****************
- * - if the control point runs from 0 - 100 (being 100 the screen size)
- * than the function will change the flow to 100 - 0
- * *****************
- * @param {Number} x - the value of the control point in a time
- * @return {Number} - the new value of the control after inversion
- */
-function invertOrientation(x) {
-  return 100 - x
-}
-
-/** @type {Number} */
-const PIXELS_PER_FRAME = 17
-/** @type {Number} */
-const SVG_WIDTH = 100
-
-/** @type {String} */
-const EASE_IN_OUT = 'easeInOut'
-
-/** @type {String} */
-const FUNCTION_NAME_RANDOM = 'random'
-
-/** @type {String} */
-const DIRECTION_HORIZONTAL = 'h'
-/** @type {String} */
-const DIRECTION_VERTICAL = 'v'
-/** @type {String} */
-const ORIENTATION_INVERSE = 'inverse'
-
-/** @type {String} */
-const STATUS_CLOSED = 'closed'
-/** @type {String} */
-const STATUS_OPENED = 'opened'
-
-/**
  * @typedef animationProps
  * @type {Object}
  * @property {Number} duration - the time the animation will run (the delay time will be added together the duration)
@@ -246,15 +290,12 @@ const STATUS_OPENED = 'opened'
  */
 
 /**
- * Create and animate the waves
+ * The wave object contains the values for the wave curves.
+ * It creates the shapes of the animation when executed.
  * @class Wave
+ * @param {waveProps} waveProps { crestNumber, crestDelay, animation = {} }
  */
 class Wave {
-  /**
-   * Creates an instance of Wave.
-   * @param {waveProps} { crestNumber, crestDelay, animation = {} }
-   * @memberof Wave
-   */
   constructor({ crestNumber, crestDelay, animation = {} }) {
     this.crestNumber = crestNumber
     this.animation = Object.assign(
@@ -268,12 +309,12 @@ class Wave {
       animation
     )
     /**
-     * Select the function to calculate the amplitude
-     * ****************
+     * The calcAmplitude returns a function used to calculate the amplitudes of the waves
+     * Available functions: [
      * - sin
      * - random
      * - liner
-     * ****************
+     * ]
      * @param {String} fnName - the name of the function to calculate the amplitude
      * @param {Number} [a=1] - parameter for the function
      * @param {Number} [r=1] - parameter for the function
@@ -289,9 +330,10 @@ class Wave {
       }[fnName](a, r)
     }
     /**
-     * It calculates the proportion of the given curve to the size of the svg
+     * The calcCrestLength calculates the size of the wave. The wave size will be the total size of the SVG
+     * divided by the number of waves.
      * @param {Number} i - the number of the curve
-     * @return {Number} - the proportion the givin curve for the max svg size
+     * @return {Number} - It returns the size of the wave
      */
     this.calcCrestLength = (i) => (i + 1) / crestNumber
     this.amplitude = this.pushAmplitude(
@@ -301,7 +343,7 @@ class Wave {
     this.status = STATUS_CLOSED
   }
   /**
-   * Create an array of calculated amplitudes of each wave crest
+   * The pushAmplitude function creates an array with the amplitudes used to create the shapes of the waves
    * @param {Array} array - an empty array to be filled in
    * @param {String} fnName - the name of the function to be used for the animation
    * @return {Array} - an array of amplitudes of each crest
@@ -352,8 +394,8 @@ class Wave {
     }[fnName](array)
   }
   /**
-   * It calculates the path for the svg
-   * @return {String} - the svg path
+   * The svgPath function creates the PATH used in the SVG HTMLelement
+   * @return {String} - It returns an object with the possible SVG paths
    * @memberof Wave
    */
   svgPath() {
@@ -366,14 +408,15 @@ class Wave {
     }
   }
   /**
-   * It creates an array of control point for each curve of the animation
-   * @param {Number} screenWidthProportion - the screen size, default value 100
-   * @param {Array} array - empty array to be filled in with the control points for each curve
-   * @param {Number} [speed=PIXELS_PER_FRAME] - the incremental value for the animation direction
-   * @return {Array} - the control points for each curve
+   * The pushEasingCp function calculates the easing function for the control points for the SVG
+   * and creates an array of it
+   * @param {Number} screenWidthProportion - The screen size, default value 100
+   * @param {Array} array - An empty array to be filled in with the control points for each curve
+   * @param {Number} [speed=PIXELS_PER_FRAME] - The incremental value for the animation direction
+   * @return {Array} - The control points for each curve
    * @memberof Wave
    */
-  pushEasingCp(screenWidthProportion, array, speed = PIXELS_PER_FRAME) {
+  pushEasingCp(screenWidthProportion, array, speed) {
     const timingFn = this.animation.transitionTimingFunction
     this.y = speed
     this.amplitude.forEach((amp, i) => {
@@ -387,9 +430,9 @@ class Wave {
     return array
   }
   /**
-   * It creates an array of lengths for the curves
-   * @param {Array} array - empty array to be filled in with the lengths of the curves
-   * @return {Array} - the lengths for each curve
+   * The pushLength function creates an array with the length of each wave
+   * @param {Array} array - An empty array to be filled in with the lengths of the curves
+   * @return {Array} - The lengths for each curve
    * @memberof Wave
    */
   pushLength(array) {
@@ -399,7 +442,7 @@ class Wave {
     return array
   }
   /**
-   * It creates the SVG PATH for horizontal animation
+   * The horizontalWave function creates the SVG PATH for horizontal animation
    * @param {Array} controlPoints - an array of control point for each curve
    * @param {Array} length - an array of length of each curve
    * @param {Number} screenWidthProportion - the svg size
@@ -465,7 +508,7 @@ class Wave {
     return `${M} ${C} ${H} ${V}`
   }
   /**
-   * It creates the SVG PATH for vertical animation
+   * The verticalWave function creates the SVG PATH for vertical animation
    * @param {Array} controlPoints - an array of control point for each curve
    * @param {Array} length - an array of length of each curve
    * @param {Number} screenWidthProportion - the svg size
@@ -537,7 +580,7 @@ class Wave {
     return `${M} ${V} ${C} ${V1} ${H}`
   }
   /**
-   * It updates the SVG PATH
+   * The updatePath function updates the SVG PATH
    * @param {Number} speed - the incremental value that moves the animation
    * @param {Number} [screenWidthProportion=SVG_WIDTH] - the svg size
    * @return {String} the updated SVG PATH
@@ -559,7 +602,7 @@ class Wave {
   }
 }
 /**
- * It creates an instance of Wave
+ * The createWave function creates an instance of Wave
  * @param {waveProps} { crestNumber, crestDelay, duration, animation }
  * @return {Wave} - instance of Wave
  */
@@ -586,7 +629,7 @@ function createWave({ crestNumber, crestDelay, animation }) {
  * @property {wave} waves
  */
 /**
- * It creates an array that includes an instance of Wave an the path elements (from the SVG/DOM) to be animated
+ * The pushWaves function creates an array that that contains an instance of Wave an the PATH of the SVG (HTMLElement) to be animated
  * @param {Array} paths - the SVG PATH element from the DOM
  * @param {Array} array - an empty array to be filled in with an object that contains an instance of Wave and PATH element from the DOM
  * @param {propsOfTheAnimation} animationProps - the properties for the new instance of Wave
@@ -626,15 +669,11 @@ function pushWaves(
   }
   return array
 }
-/** @type {DomElement}*/
-const overlayBg = document.querySelector('#overlay-transition')
-/** @type {DomElement} */
-const paths = overlayBg.querySelectorAll('path')
+
 /**
- * The function that controls the animation]
+ * The animate function execute the animation
  * - It update the SVG PATH in each cycle
  * - It recalls itself while the elapsedTime is smaller than the duration plus the delay of the animation
- *
  * @param {Array} waveArray - an Array that instance of Wave, the path form the SVG tag and the waveDelay value,
  * @param {Object} { duration, timeStart, waves: { crestDelay, waveDelay } }
  */
@@ -644,7 +683,7 @@ function animate(
 ) {
   /** @type {DataTimeStamp} */
   const elapsedTime = Date.now() - timeStart
-  /** @type {Number} */
+  /** @type {Number}*/
   const durationPlusDelay = duration + crestDelay + waveDelay * waveArray.length
   if (elapsedTime < durationPlusDelay) {
     window.requestAnimationFrame(() =>
@@ -674,38 +713,6 @@ function animate(
 /** ******************************************************************************************************
  *  TOGGLE BUTTON STATE MACHINE
  *  ******************************************************************************************************/
-
-/** CLASS NAMES */
-/** @type {string} */
-const CLASS_VISIBLE = 'visible'
-/** @type {string} */
-const CLASS_IS_OPENED = 'is-opened'
-/** @type {string} */
-const CLASS_IS_CLOSED = 'is-closed'
-/** @type {string} */
-const CLASS_IS_TRANSITIONING = 'is-transitioning'
-
-/** SELECTORS */
-/** @type {string} */
-const SELECTOR_TOGGLE = '#toggle'
-/** @type {string} */
-const SELECTOR_HEADER = '#header'
-/** @type {string} */
-const SELECTOR_BG_TRANSITION = '.bg-translate'
-/** @type {string} */
-const SELECTOR_OVERLAY_TRANSITION = '#overlay-transition'
-/** @type {string} */
-const SELECTOR_OVERLAY = '#overlay-menu'
-
-/** DOM ELEMENTS */
-/** @type {DomElement} */
-const header = document.querySelector(SELECTOR_HEADER)
-/** @type {DomElement} */
-const toggleBtn = document.querySelector(SELECTOR_TOGGLE)
-/** @type {DomElement} */
-const overlayTransition = document.querySelector(SELECTOR_OVERLAY_TRANSITION)
-/** @type {DomElement} */
-const overlay = document.querySelector(SELECTOR_OVERLAY)
 
 /**
  * A function used to setup the animation when it starts
@@ -757,7 +764,12 @@ function toClose(el) {
 
 // OVERLAY-TRANSITION STATE MACHINE
 /**
- * A State-Machine that controls the state of the animation [close/transitioning/open]
+ * A State-Machine that controls the state of the animation
+ * Available States: [
+ * - close
+ * - transitioning
+ * - open
+ * ]
  * @param {stateMachineObject} { enter, exit, duration }
  * @return {Object} - It returns an Object with each state of the animation
  */
@@ -858,9 +870,6 @@ function validateInput(props) {
     if (!duration) {
       throw new Error('Missing param duration')
     }
-    if (svg !== true && svg !== false) {
-      throw new Error('Invalid param. It must be [true/false]')
-    }
     if (typeof crestNumber !== 'number') {
       throw new Error('Invalid param. crestNumber must be a [number]')
     }
@@ -888,37 +897,40 @@ function validateInput(props) {
 }
 
 /**
- *
- *
+ * @typedef animationObject
+ * @type {Object}
+ * @param {Function} animateEnter
+ * @param {Function} animateExit
+ * @param {Object} animationProps
+ */
+
+/**
+ * The OverlayAnimation class creates the animation and executes it.
+ * It expects an object with the parameters for the animation, or execute it with default values.
+ * The execute method starts the animation.
  * @class OverlayAnimation
+ * @param {animationObject} {
+ *     enter = animateEnter(),
+ *     exit = animateExit(),
+ *     animationProps = {
+ *       duration: 1000,
+ *       waves: {
+ *         crestNumber: 1,
+ *         crestDelay: 300,
+ *         waveDelay: 200,
+ *         orientation: 'inverse',
+ *         direction: 'v',
+ *         transitionTimingFunction: 'easeInOut',
+ *         crestAmplitudeFunction: 'random'
+ *       }
+ *     }
+ *   }
  */
 class OverlayAnimation {
-  /**
-   * Creates an instance of OverlayAnimation.
-   * @param {Object} {
-   *     enter = animateEnter(),
-   *     exit = animateExit(),
-   *     animationProps = {
-   *       svg: true,
-   *       duration: 1000,
-   *       waves: {
-   *         crestNumber: 1,
-   *         crestDelay: 300,
-   *         waveDelay: 200,
-   *         orientation: 'inverse',
-   *         direction: 'v',
-   *         transitionTimingFunction: 'easeInOut',
-   *         crestAmplitudeFunction: 'random'
-   *       }
-   *     }
-   *   }
-   * @memberof OverlayAnimation
-   */
   constructor({
     enter = animateEnter(),
     exit = animateExit(),
     animationProps = {
-      svg: true,
       duration: 1000,
       waves: {
         crestNumber: 1,
@@ -937,24 +949,36 @@ class OverlayAnimation {
     this.createAnimation()
   }
 
+  /**
+   * updateAnimationsProps method updates the param of the animation
+   * @param {Object} props - The wave params that need to be updated
+   * @memberof OverlayAnimation
+   */
   updateAnimationProps(props) {
     Object.assign(this.animationProps.waves, props)
     this.waveArray = pushWaves(paths, [], this.animationProps)
   }
 
+  /**
+   * execute method executes the animation
+   * @memberof OverlayAnimation
+   */
   execute() {
     let { animationProps, waveArray } = this
     if (this.stateMachine.state === 'transition') {
       return
     }
-    let { svg } = animationProps
     Object.assign(animationProps, { timeStart: Date.now() })
-    if (svg === true) animate(waveArray, animationProps)
+    animate(waveArray, animationProps)
     this.stateMachine.setAction('transition', [
       { el: overlayTransition, waves: waveArray }
     ])
   }
 
+  /**
+   * createAnimation method is used before the execute method to set up the animation
+   * @memberof OverlayAnimation
+   */
   createAnimation() {
     let { enter, exit, animationProps } = this
     validateInput({
@@ -963,26 +987,15 @@ class OverlayAnimation {
       animationProps
     })
 
-    // It creates waveArray if there are svg animations to run or else changes delays to zero
     let {
-      svg,
       duration,
       waves: { crestDelay, waveDelay }
     } = this.animationProps
-    if (svg === true) {
-      this.waveArray = pushWaves(paths, [], animationProps)
-    } else {
-      Object.assign(this.animationProps.waves, {
-        crestDelay: 0,
-        waveDelay: 0,
-        crestNumber: 0
-      })
-    }
+    this.waveArray = pushWaves(paths, [], animationProps)
 
     const transitionDuration =
       duration + crestDelay + waveDelay * this.waveArray.length
 
-    // create State Machine
     this.stateMachine = createStateMachine({
       enter,
       exit,

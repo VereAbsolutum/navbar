@@ -11,6 +11,8 @@
   height: 1rem;
   width: 3rem;
   order: 1;
+  display: flex;
+  align-items: center;
 
   &-label {
     font-family: 'Squada One', cursive;
@@ -52,34 +54,7 @@
   }
 }
 
-// COLORS
-.toggle {
-  &__icon,
-  &-label {
-    color: #fff;
-  }
-
-  .t-bar,
-  .t-bar::before,
-  .t-bar::after {
-    background-color: #fff;
-  }
-}
-
-// TRANSITION
-.header__link,
-.t-bar,
-.toggle__icon,
-.toggle-label,
-.t-bar .h-line,
-.h-line::after,
-.h-line::before,
-.v-line::before,
-.v-line::after {
-  transition: 0.5s 0.3s ease;
-}
-
-.v-line {
+.v-bar {
   position: absolute;
   left: 0;
   top: 0;
@@ -103,13 +78,13 @@
   }
 }
 
-.v-line,
-.h-line,
-.h-line::before,
-.h-line::after {
+.t-bar,
+.h-bar::before,
+.h-bar::after {
   width: 48px;
 }
-.h-line {
+
+.h-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -159,6 +134,28 @@
   }
 }
 
+// STYLE
+.toggle__icon--style,
+.toggle-label--style {
+  color: #fff;
+}
+
+.t-bar,
+.t-bar::before,
+.t-bar::after {
+  background-color: #fff;
+}
+
+// TRANSITION
+.header__link,
+.toggle__icon,
+.toggle-label,
+.t-bar,
+.t-bar::after,
+.t-bar::before {
+  transition: 0.5s 0.3s ease;
+}
+
 // FUNCTIONALITY: animation
 // It changes the toggle to close mode
 // when the overlay is opened
@@ -167,7 +164,7 @@
     transform: scaleX(1) rotate(-180deg);
   }
 
-  .v-line {
+  .v-bar {
     &::after {
       transform: rotate(90deg) scaleX(1);
     }
@@ -177,7 +174,7 @@
     }
   }
 
-  .h-line {
+  .h-bar {
     &::before {
       transform: scaleX(0.5);
     }

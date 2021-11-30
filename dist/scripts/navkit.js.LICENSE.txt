@@ -1,7 +1,29 @@
 /**!
+ * App Module
+ * @module /src/scripts/index.js
+ * 
  * @author [VereAbsolutum]
  * @email [sergiopile3@fmail.com]
+ * @version 1.0.0
  * @create date 2021-11-16 21:19:28
  * @modify date 2021-11-24 20:36:20
- * @desc [full-width animated navigation bar]
+ * @description It controls the svg animation for the overlay. It execute a set of default parameters,
+ * but they can be changed as needed
+ * 
+ * Parameter that can be configured: 
+ * enter = animateEnter(),
+    exit = animateExit(),
+    animationProps = {
+      duration: 1000,
+      waves: {
+        crestNumber: 1,
+        crestDelay: 300,
+        waveDelay: 200,
+        orientation: 'inverse',
+        direction: 'v',
+        transitionTimingFunction: 'easeInOut',
+        crestAmplitudeFunction: 'random'
+      }
+    }
+  }
  */
