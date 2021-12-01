@@ -1,49 +1,39 @@
 // IMPLEMENTATION
-
 const { animation, OverlayAnimation } = Navkit
 const { animateIn, animateOut } = animation
 
 const nk = new OverlayAnimation({
   exit: animation.animateExit(),
-  enter: animation.animateEnter(),
+  enter: animation.animateEnter((enterState) => {
+    Object.assign(enterState.primaryNav, { offset: 1000 })
+    return enterState
+  }),
   animationProps: {
-    duration: 600,
+    duration: 1000,
+    svg: true,
     waves: {
-      crestNumber: 80,
-      crestDelay: 100,
+      crestNumber: 50,
+      crestDelay: 40,
       waveDelay: 100,
-      orientation: 'normal',
+      orientation: 'inverse',
       direction: 'h',
-      transitionTimingFunction: 'linear',
+      transitionTimingFunction: 'easeInOut',
       crestAmplitudeFunction: 'square'
     }
   }
 })
 
 const btn = document.querySelector('#toggle')
-
 btn.addEventListener('click', () => {
   let { state } = nk.stateMachine
   if (state === 'transition') return
-  let prop = {}
-  if (Math.random() < 0.5 || Math.random() > 0.75) {
-    prop.direction = 'h'
-    prop.orientation = 'normal'
-    prop.crestNumber = Math.trunc(Math.random() * 100 + 1)
-    prop.crestAmplitudeFunction = 'sin'
-  } else {
-    prop.direction = 'v'
-    prop.orientation = 'inverse'
-    prop.crestNumber = Math.trunc(Math.random() * 50 + 1)
-    prop.crestAmplitudeFunction = 'square'
-  }
-  nk.updateAnimationProps({
-    direction: prop.direction,
-    orientation: prop.orientation,
-    crestNumber: prop.crestNumber,
-    crestAmplitudeFunction: prop.crestAmplitudeFunction
-  })
   nk.execute()
+})
+
+const colors = ['white', 'black', '#c3c3c4']
+const paths = document.querySelectorAll('path')
+paths.forEach((path, i) => {
+  path.style.fill = colors[i]
 })
 
 // CARROUSEL

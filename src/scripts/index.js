@@ -234,7 +234,7 @@ const animateExit = (callback) => {
   let properties
   if (callback) {
     properties = callback(animeProps.exit)
-    Object.assign(props.enter, properties)
+    Object.assign(props.exit, properties)
   }
 
   return anime
@@ -846,7 +846,6 @@ function validateInput(props) {
     enter,
     exit,
     animationProps: {
-      svg,
       duration,
       waves: {
         crestNumber,

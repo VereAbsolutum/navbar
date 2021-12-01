@@ -50,31 +50,37 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+@media only screen and (min-width: 760px) {
+  ul,
+  p,
+  img.features__img,
+  h2 {
+    width: 55%;
+    margin: 0 auto;
+    margin-bottom: 2.3rem;
+  }
+  ul,
+  img.features__img,
+  p {
+    padding-left: 120px;
+  }
+}
+
 /** End Base */
 /** Header */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background: transparent;
-  z-index: 100;
-}
-
-.header__container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
   height: 110px;
-  width: 80%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 80vw;
   margin: 0 auto;
+  background: transparent;
+  z-index: 100;
 }
 
 .header__link {
@@ -82,30 +88,19 @@ h2 {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
+  font-size: 3rem;
+  font-family: 'Squada One', cursive;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .header__logo {
   display: none;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   z-index: 100;
 }
 
 .header__img {
   width: 100%;
-}
-
-.header--style {
-  background: transparent;
-}
-
-.header__link--style {
-  color: #fff;
-  font-size: 3rem;
-  font-family: 'Squada One', cursive;
-  font-weight: 400;
-  text-transform: uppercase;
 }
 
 /** End Header */
@@ -144,6 +139,12 @@ h2 {
           justify-content: center;
 }
 
+menu.primary-nav__menu,
+menu.secondary-nav__menu {
+  list-style: none;
+  margin: 0;
+}
+
 .primary-nav {
   text-align: center;
   text-transform: uppercase;
@@ -175,6 +176,12 @@ h2 {
   width: 100%;
 }
 
+.primary-nav__list,
+.secondary-nav__link {
+  opacity: 0;
+  font-family: 'Squada One', cursive;
+}
+
 .secondary-nav {
   position: absolute;
   left: 0;
@@ -195,21 +202,8 @@ h2 {
   font-size: 1.5rem;
 }
 
-.primary-nav__menu,
-.secondary-nav__menu {
-  list-style: none;
-  margin: 0;
-}
-
-.primary-nav__link,
-.secondary-nav__link {
-  font-family: 'Squada One', cursive;
-  font-style: normal;
-  color: #000;
-  letter-spacing: 3px;
-}
-
 .overlay-transition {
+  background-color: #fff;
   background-color: transparent;
   position: fixed;
   top: 0;
@@ -222,21 +216,38 @@ h2 {
           order: 0;
 }
 
+.primary-nav__link,
+.secondary-nav__link {
+  color: #fff;
+  -webkit-transition: color 1100ms;
+  transition: color 1100ms;
+  font-style: normal;
+  letter-spacing: 3px;
+}
+
 .header.is-opened .toggle-label,
 .header.is-opened .toggle__icon,
 .header.is-opened .header__link {
   color: #000;
 }
 
-.header.is-opened .t-bar,
-.header.is-opened .t-bar::before,
-.header.is-opened .t-bar::after {
+.header.is-opened .toggle .v-line,
+.header.is-opened .toggle .h-line,
+.header.is-opened .toggle .h-line::before,
+.header.is-opened .toggle .h-line::after,
+.header.is-opened .toggle .v-line::before,
+.header.is-opened .toggle .v-line::after {
   background-color: #000;
 }
 
 .header.is-opened .overlay {
   visibility: visible;
   opacity: 1;
+}
+
+.header.is-opened .primary-nav__link,
+.header.is-opened .secondary-nav__link {
+  color: #000;
 }
 
 .visible-hidden {
@@ -280,12 +291,6 @@ h2 {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .toggle-label {
@@ -325,14 +330,37 @@ h2 {
   pointer-events: none;
 }
 
-.v-bar {
+.toggle__icon, .toggle-label {
+  color: #fff;
+}
+
+.toggle .t-bar,
+.toggle .t-bar::before,
+.toggle .t-bar::after {
+  background-color: #fff;
+}
+
+.header__link,
+.t-bar,
+.toggle__icon,
+.toggle-label,
+.t-bar .h-line,
+.h-line::after,
+.h-line::before,
+.v-line::before,
+.v-line::after {
+  -webkit-transition: 0.5s 0.3s ease;
+  transition: 0.5s 0.3s ease;
+}
+
+.v-line {
   position: absolute;
   left: 0;
   top: 0;
   background-color: transparent;
 }
 
-.v-bar::before, .v-bar::after {
+.v-line::before, .v-line::after {
   width: 1.3rem;
   -webkit-transform-origin: left;
           transform-origin: left;
@@ -341,23 +369,24 @@ h2 {
   top: -1px;
 }
 
-.v-bar::after {
+.v-line::after {
   left: 1px;
   -webkit-transform: rotate(90deg) scaleX(0);
           transform: rotate(90deg) scaleX(0);
 }
 
-.v-bar::before {
+.v-line::before {
   right: -1.25rem;
 }
 
-.t-bar,
-.h-bar::before,
-.h-bar::after {
+.v-line,
+.h-line,
+.h-line::before,
+.h-line::after {
   width: 48px;
 }
 
-.h-bar {
+.h-line {
   position: absolute;
   top: 0;
   left: 0;
@@ -365,16 +394,16 @@ h2 {
           transform-origin: left;
 }
 
-.h-bar::before, .h-bar::after {
+.h-line::before, .h-line::after {
   -webkit-transform-origin: left;
           transform-origin: left;
 }
 
-.h-bar::before {
+.h-line::before {
   top: 6px;
 }
 
-.h-bar::after {
+.h-line::after {
   top: 13px;
 }
 
@@ -406,48 +435,27 @@ h2 {
   opacity: 1;
 }
 
-.toggle__icon--style,
-.toggle-label--style {
-  color: #fff;
-}
-
-.t-bar,
-.t-bar::before,
-.t-bar::after {
-  background-color: #fff;
-}
-
-.header__link,
-.toggle__icon,
-.toggle-label,
-.t-bar,
-.t-bar::after,
-.t-bar::before {
-  -webkit-transition: 0.5s 0.3s ease;
-  transition: 0.5s 0.3s ease;
-}
-
 .header.is-opened .toggle__icon {
   -webkit-transform: scaleX(1) rotate(-180deg);
           transform: scaleX(1) rotate(-180deg);
 }
 
-.header.is-opened .v-bar::after {
+.header.is-opened .v-line::after {
   -webkit-transform: rotate(90deg) scaleX(1);
           transform: rotate(90deg) scaleX(1);
 }
 
-.header.is-opened .v-bar::before {
+.header.is-opened .v-line::before {
   -webkit-transform: rotate(90deg) scaleX(0);
           transform: rotate(90deg) scaleX(0);
 }
 
-.header.is-opened .h-bar::before {
+.header.is-opened .h-line::before {
   -webkit-transform: scaleX(0.5);
           transform: scaleX(0.5);
 }
 
-.header.is-opened .h-bar::after {
+.header.is-opened .h-line::after {
   -webkit-transform: scaleX(0.5);
           transform: scaleX(0.5);
 }
