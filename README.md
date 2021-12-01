@@ -26,7 +26,7 @@ Availible functionalities:
 
 ### Screenshot
 
-![](./dist/assets/fire.png)
+![](./docs/assets/fire.png)
 
 ### Links
 
