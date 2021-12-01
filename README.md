@@ -15,7 +15,6 @@ This is a solution to improve the users experience when they visit your website.
 
 ## Overview
 
-
 ### The functionalities
 
 Availible functionalities:
@@ -27,7 +26,7 @@ Availible functionalities:
 
 ### Screenshot
 
-![](./dist/assets/fire.jpg)
+![](./dist/assets/fire.png)
 
 ### Links
 
